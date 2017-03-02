@@ -48,6 +48,12 @@ public class OutpassController {
 	public String addForm(ModelMap model) {
 		LoginForm loginForm = new LoginForm();
 		model.addAttribute("login", loginForm);
+		try {
+			outpassService.addRecord();
+		} catch (OutpassException e) {
+			e.printStackTrace();
+			return "error";
+		}
 		return "home";
 	}
 
@@ -73,7 +79,6 @@ public class OutpassController {
 		}
 		// if (loginValidator.supports(LoginForm.class)){}
 		try {
-			outpassService.addRecord();
 			int type = outpassService.redirectUser(userId, password);
 			System.out.println(type);
 			if (type != 0) {
